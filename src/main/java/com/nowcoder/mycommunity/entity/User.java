@@ -11,7 +11,16 @@ public class User {
     private int type;
     private int status;
     private String activationCode;
+    private String headerUrl;
     private Date createTime;
+
+    public String getHeaderUrl() {
+        return headerUrl;
+    }
+
+    public void setHeaderUrl(String headerUrl) {
+        this.headerUrl = headerUrl;
+    }
 
     public int getId() {
         return id;
