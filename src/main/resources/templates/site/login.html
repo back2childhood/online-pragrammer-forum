@@ -62,42 +62,42 @@
 		<!-- 内容 -->
 		<div class="main">
 			<div class="container pl-5 pr-5 pt-3 pb-3 mt-3 mb-3">
-				<h3 class="text-center text-info border-bottom pb-3">登&nbsp;&nbsp;录</h3>
+				<h3 class="text-center text-info border-bottom pb-3">Sign&nbsp;&nbsp;In</h3>
 				<form class="mt-5" method="post" th:action="@{/login}">
 					<div class="form-group row">
-						<label for="username" class="col-sm-2 col-form-label text-right">账号:</label>
+						<label for="username" class="col-sm-2 col-form-label text-right">username:</label>
 						<div class="col-sm-10">
 							<input type="text" th:class="|form-control ${usernameMsg!=null?'is-invalid':''}|"
 								   th:value="${param.username}"
-								   id="username" name="username" placeholder="请输入您的账号!" required>
+								   id="username" name="username" placeholder="please enter your username" required>
 							<div class="invalid-feedback" th:text="${usernameMsg}">
-								该账号不存在!
+								this account doesn't exist!
 							</div>
 						</div>
 					</div>
 					<div class="form-group row mt-4">
-						<label for="password" class="col-sm-2 col-form-label text-right">密码:</label>
+						<label for="password" class="col-sm-2 col-form-label text-right">password:</label>
 						<div class="col-sm-10">
 							<input type="password" th:class="|form-control ${passwordMsg!=null?'is-invalid':''}|"
 								   th:value="${param.password}"
-								   id="password" name="password" placeholder="请输入您的密码!" required>
+								   id="password" name="password" placeholder="please enter your password" required>
 							<div class="invalid-feedback" th:text="${passwordMsg}">
-								密码长度不能小于8位!
+								your password shouldn't less than 8 bits!
 							</div>							
 						</div>
 					</div>
 					<div class="form-group row mt-4">
-						<label for="verifycode" class="col-sm-2 col-form-label text-right">验证码:</label>
+						<label for="verifycode" class="col-sm-2 col-form-label text-right">captcha:</label>
 						<div class="col-sm-6">
 							<input type="text" th:class="|form-control ${codeMsg!=null?'is-invalid':''}|"
-								   id="verifycode" name="code" placeholder="请输入验证码!">
+								   id="verifycode" name="code" placeholder="please enter the captcha">
 							<div class="invalid-feedback" th:text="${codeMsg}">
-								验证码不正确!
+								captcha is wrong!
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<img th:src="@{/kaptcha}" id="kaptcha" style="width:100px;height:40px;" class="mr-2"/>
-							<a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">刷新验证码</a>
+							<img th:src="@{img/kaptcha}" id="kaptcha" style="width:100px;height:40px;" class="mr-2"/>
+							<a href="javascript:refresh_kaptcha();" class="font-size-12 align-bottom">refresh</a>
 						</div>
 					</div>				
 					<div class="form-group row mt-4">
