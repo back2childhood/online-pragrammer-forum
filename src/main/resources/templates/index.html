@@ -6,12 +6,12 @@
 	<link rel="icon" href="https://static.nowcoder.com/images/logo_87_87.png"/>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous">
 	<link rel="stylesheet" th:href="@{/css/global.css}" />
-	<title>牛客网-首页</title>
+	<title>CoderCommunity</title>
 </head>
 <body>	
 	<div class="nk-container">
 		<!-- 头部 -->
-		<header class="bg-dark sticky-top" th:fragment="header">
+		<header class="bg-dark sticky-top" th:fragment="~{header}">
 			<div class="container">
 				<!-- 导航 -->
 				<nav class="navbar navbar-expand-lg navbar-dark">
@@ -24,25 +24,25 @@
 					<div class="collapse navbar-collapse" id="navbarSupportedContent">
 						<ul class="navbar-nav mr-auto">
 							<li class="nav-item ml-3 btn-group-vertical">
-								<a class="nav-link" th:href="@{/index}">首页</a>
+								<a class="nav-link" th:href="@{/index}">Home</a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser!=null}">
-								<a class="nav-link position-relative" th:href="@{/letter/list}">消息<span class="badge badge-danger" th:text="${allUnreadCount!=0?allUnreadCount:''}">12</span></a>
+								<a class="nav-link position-relative" th:href="@{/letter/list}">Message<span class="badge badge-danger" th:text="${allUnreadCount!=0?allUnreadCount:''}">12</span></a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
-								<a class="nav-link" th:href="@{/register}">注册</a>
+								<a class="nav-link" th:href="@{/register}">Sign up</a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical" th:if="${loginUser==null}">
-								<a class="nav-link" th:href="@{/login}">登录</a>
+								<a class="nav-link" th:href="@{/login}">Sign in</a>
 							</li>
 							<li class="nav-item ml-3 btn-group-vertical dropdown" th:if="${loginUser!=null}">
 								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 									<img th:src="${loginUser.headerUrl}" class="rounded-circle" style="width:30px;"/>
 								</a>
 								<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-									<a class="dropdown-item text-center" th:href="@{|/user/profile/${loginUser.id}|}">个人主页</a>
-									<a class="dropdown-item text-center" th:href="@{/user/setting}">账号设置</a>
-									<a class="dropdown-item text-center" th:href="@{/logout}">退出登录</a>
+									<a class="dropdown-item text-center" th:href="@{|/user/profile/${loginUser.id}|}">personal homepage</a>
+									<a class="dropdown-item text-center" th:href="@{/user/setting}">account setting</a>
+									<a class="dropdown-item text-center" th:href="@{/logout}">log out</a>
 									<div class="dropdown-divider"></div>
 									<span class="dropdown-item text-center text-secondary" th:utext="${loginUser.username}">nowcoder</span>
 								</div>
@@ -51,7 +51,7 @@
 						<!-- 搜索 -->
 						<form class="form-inline my-2 my-lg-0" action="site/search.html">
 							<input class="form-control mr-sm-2" type="search" aria-label="Search" />
-							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">搜索</button>
+							<button class="btn btn-outline-light my-2 my-sm-0" type="submit">Search</button>
 						</form>
 					</div>
 				</nav>

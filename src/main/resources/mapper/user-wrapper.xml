@@ -27,8 +27,8 @@
     </select>
 
     <insert id="insertUser" parameterType="User" keyProperty="id">
-        insert into user <include refid="insertFileds"></include>
-        where (#{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
+        insert into user (<include refid="selectFileds"></include>)
+        values (#{id}, #{username}, #{password}, #{salt}, #{email}, #{type}, #{status}, #{activationCode}, #{headerUrl}, #{createTime})
     </insert>
 
     <update id="updateStatus">

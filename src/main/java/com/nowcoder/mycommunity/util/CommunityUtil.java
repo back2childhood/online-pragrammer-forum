@@ -1,0 +1,25 @@
+package com.nowcoder.mycommunity.util;
+
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.DigestUtils;
+
+import java.util.UUID;
+
+public class CommunityUtil {
+    // generate a random string
+    public static String generateUUID(){
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
+
+    // MD5 encryption
+    // MD5 can do encryption, but can not decrypt
+    // the same string is encrypted with the same result.
+    // so in order to improve the security of our password,
+    // this function could automatically add a random string after the password
+    public static String md5(String key){
+        if(StringUtils.isBlank(key)){
+            return null;
+        }
+        return DigestUtils.md5DigestAsHex(key.getBytes());
+    }
+}
