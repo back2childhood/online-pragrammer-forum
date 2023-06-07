@@ -2,8 +2,11 @@ package com.nowcoder.mycommunity.controller;
 
 //import ch.qos.logback.core.model.Model;
 import com.nowcoder.mycommunity.service.AlphaService;
+import com.nowcoder.mycommunity.util.CommunityUtil;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -141,5 +144,46 @@ public class AlphaController {
         list.add(map);
 
         return list;
+    }
+
+    //cookie
+    @RequestMapping(path = "/cookie/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setCookie(HttpServletResponse response){
+        // create cookie
+        Cookie cookie = new Cookie("code", CommunityUtil.generateUUID());
+        // Sets the range over which the cookie is valid
+        cookie.setPath("/myCommunity/alpha");
+        // if you set a lifetime of cookie, it will store in your disk
+        cookie.setMaxAge(60 * 10); // 10 min
+        // send cookie
+        response.addCookie(cookie);
+
+        return "set cookie";
+    }
+
+    @RequestMapping(path = "/cookie/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getCookie(@CookieValue("code") String code){
+        System.out.println(code);
+
+        return "get cookie";
+    }
+
+    // demo of session
+    @RequestMapping(path = "/session/set", method = RequestMethod.GET)
+    @ResponseBody
+    public String setSession(HttpSession session){
+        session.setAttribute("id", 1);
+        session.setAttribute("name", "Test");
+        return "set session";
+    }
+
+    @RequestMapping(path = "/session/get", method = RequestMethod.GET)
+    @ResponseBody
+    public String getSession(HttpSession session){
+        System.out.println(session.getAttribute("id"));
+        System.out.println(session.getAttribute("name"));
+        return "get session";
     }
 }

@@ -1,7 +1,9 @@
 package com.nowcoder.mycommunity.service;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
+import com.nowcoder.mycommunity.dao.LoginTicketMapper;
 import com.nowcoder.mycommunity.dao.UserMapper;
+import com.nowcoder.mycommunity.entity.LoginTicket;
 import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.util.CommunityConstant;
 import com.nowcoder.mycommunity.util.CommunityUtil;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.nio.channels.Pipe;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,6 +38,9 @@ public class UserService implements CommunityConstant {
 
     @Value("${server.servlet.context-path}")
     private String contextPath;
+
+    @Autowired
+    private LoginTicketMapper loginTicketMapper;
 
     public User findUserById(int userId){
         return userMapper.selectById(userId);
@@ -103,4 +109,57 @@ public class UserService implements CommunityConstant {
         }
     }
 
+    public Map<String, Object> login(String username, String password, int expiredSeconds){
+        Map<String, Object> map = new HashMap<>();
+
+        // handle null value
+        if(StringUtils.isBlank(username)){
+            map.put("usernameMsg", "the account cannot be empty");
+            return map;
+        }
+
+        if(StringUtils.isBlank(password)){
+            map.put("passwordMsg", "the password cannot be empty");
+            return map;
+        }
+
+        // verify the account
+        User user = userMapper.selectByName(username);
+        if (user == null) {
+            map.put("usernameMsg", "this account don't exist");
+            return map;
+        }
+
+        // verify the status
+        if (user.getStatus() == 0) {
+            map.put("usernameMsg", "this account isn't activated");
+            return map;
+        }
+
+        // verify the password
+        password = CommunityUtil.md5(password + user.getSalt());
+        if (!user.getPassword().equals(password)) {
+            map.put("passwordMsg", "wrong password");
+            return map;
+        }
+
+        // Generate login credentials
+        LoginTicket loginTicket = new LoginTicket();
+        loginTicket.setUserId(user.getId());
+        loginTicket.setTicket(CommunityUtil.generateUUID());
+        loginTicket.setStatus(0);
+        loginTicket.setExpire(new Date(System.currentTimeMillis() + expiredSeconds * 1000));
+        loginTicketMapper.insertLoginTicket(loginTicket);
+
+        map.put("ticket", loginTicket.getTicket());
+        return map;
+    }
+
+    /**
+     * don't need return a value, it will success if there is no error
+     * @param ticket
+     */
+    public void logout(String ticket){
+        loginTicketMapper.updateStatus(ticket, 1);
+    }
 }
