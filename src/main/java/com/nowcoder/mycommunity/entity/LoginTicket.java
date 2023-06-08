@@ -41,7 +41,7 @@ public class LoginTicket {
         this.status = status;
     }
 
-    public Date getExpire() {
+    public Date getExpired() {
         return expired;
     }
 

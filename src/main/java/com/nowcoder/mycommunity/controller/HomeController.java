@@ -18,6 +18,7 @@ import java.util.Map;
 
 @Controller
 public class HomeController {
+
     @Autowired
     private DiscussPostService discussPostService;
 
