@@ -1,6 +1,7 @@
 package com.nowcoder.mycommunity.controller;
 
 import com.google.protobuf.compiler.PluginProtos;
+import com.nowcoder.mycommunity.annotation.LoginRequired;
 import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.service.UserService;
 import com.nowcoder.mycommunity.util.CommunityUtil;
@@ -32,7 +33,7 @@ public class UserController {
     @Value("${mucommunity.path.upload}")
     private String uploadPath;
 
-    @Value("mycommunity.path.domain")
+    @Value("${mycommunity.path.domain}")
     private String domain;
 
     @Value("${server.servlet.context-path}")
@@ -44,11 +45,13 @@ public class UserController {
     @Autowired
     private HostHolder hostHolder;
 
+    @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
     public String getSettingPage(){
         return "/site/setting";
     }
 
+    @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model){
         if(headerImage == null){
