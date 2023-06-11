@@ -1,6 +1,8 @@
 # A online programmer forum
 ## brief introduction
+I want to build a forum that every programmer can share their knowledge and technologies.
 
+In this forum, you can not only write blogs, but also you can read others' blogs and like them, share them, comment them. Even you can send private message to someone else.
 ## how to use it
 ```
 // pull the code to your computer

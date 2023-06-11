@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -94,6 +96,7 @@ public class UserController {
         // parsing the file suffix
         String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
         // response image
+        response.setContentType("image/" + suffix);
         try (
                 FileInputStream fileInputStream = new FileInputStream(fileName);
                 OutputStream outputStream = response.getOutputStream();
@@ -106,6 +109,21 @@ public class UserController {
         } catch (IOException e) {
             logger.error("failed to read profile picture" + e.getMessage());
             throw new RuntimeException("failed to read profile picture");
+        }
+    }
+
+    @LoginRequired
+    @PostMapping("/updatePassword")
+    public String updatePassword(String confirmPassword, String oldPassword, String newPassword, Model model) {
+        User user = hostHolder.getUser();
+        Map<String, Object> map = userService.updatePassword(user, oldPassword, newPassword, confirmPassword);
+        if (map == null || map.isEmpty()) {
+            return "redirect:/logout";
+        } else {
+            model.addAttribute("oldPasswordMsg", map.get("oldPasswordMsg"));
+            model.addAttribute("newPasswordMsg", map.get("newPasswordMsg"));
+            model.addAttribute("confirmPasswordMsg", map.get("confirmPasswordMsg"));
+            return "/site/setting";
         }
     }
 }
