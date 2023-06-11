@@ -65,13 +65,13 @@
 					<!-- 筛选条件 -->
 					<ul class="nav nav-tabs mb-3">
 						<li class="nav-item">
-							<a class="nav-link active" href="#">最新</a>
+							<a class="nav-link active" href="#">Hot</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="#">最热</a>
+							<a class="nav-link" href="#">New</a>
 						</li>
 					</ul>
-					<button type="button" class="btn btn-primary btn-sm position-absolute rt-0" data-toggle="modal" data-target="#publishModal" th:if="${loginUser!=null}">我要发布</button>
+					<button type="button" class="btn btn-primary btn-sm position-absolute rt-0" data-toggle="modal" data-target="#publishModal" th:if="${loginUser!=null}">Publish</button>
 				</div>
 				<!-- 弹出框 -->
 				<div class="modal fade" id="publishModal" tabindex="-1" role="dialog" aria-labelledby="publishModalLabel" aria-hidden="true">
@@ -96,8 +96,8 @@
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-								<button type="button" class="btn btn-primary" id="publishBtn">发布</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+								<button type="button" class="btn btn-primary" id="publishBtn">publish</button>
 							</div>
 						</div>
 					</div>
@@ -125,8 +125,8 @@
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
 								<a th:href="@{|/discuss/detail/${map.post.id}|}" th:utext="${map.post.title}">备战春招，面试刷题跟他复习，一个月全搞定！</a>
-								<span class="badge badge-secondary bg-primary" th:if="${map.post.type==1}">置顶</span>
-								<span class="badge badge-secondary bg-danger" th:if="${map.post.status==1}">精华</span>
+								<span class="badge badge-secondary bg-primary" th:if="${map.post.type==1}">pin</span>
+								<span class="badge badge-secondary bg-danger" th:if="${map.post.status==1}">essence</span>
 							</h6>
 							<div class="text-muted font-size-12">
 								<u class="mr-3" th:utext="${map.user.username}">寒江雪</u> 发布于 <b th:text="${#dates.format(map.post.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-15 15:32:18</b>

@@ -5,7 +5,7 @@ $(function(){
 function publish() {
 	$("#publishModal").modal("hide");
 
-	// 获取标题和内容
+	// get title and content
 	var title = $("#recipient-name").val();
 	var content = $("#message-text").val();
 	// 发送异步请求(POST)
@@ -28,5 +28,4 @@ function publish() {
             }, 2000);
 	    }
 	);
-
 }

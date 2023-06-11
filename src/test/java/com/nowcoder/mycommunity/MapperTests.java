@@ -69,11 +69,16 @@ public class MapperTests {
     public void testSelectDiscuss(){
         List<DiscussPost> list = discussPostMapper.selectDiscussPosts(149, 0, 10);
         for(DiscussPost discussPost : list) {
-            System.out.println(discussPost);
+//            System.out.println(discussPost);
         }
 
         int rows = discussPostMapper.selectDiscussPostRows(149);
         System.out.println(rows);
+
+        DiscussPost discussPost = list.get(0);
+        System.out.println(discussPost);
+        discussPost.setCreateTime(new Date());
+        discussPostMapper.insertDiscussPost(discussPost);
     }
 
     @Test
@@ -97,4 +102,5 @@ public class MapperTests {
         loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
     }
+
 }

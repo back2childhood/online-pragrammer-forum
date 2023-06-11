@@ -3,6 +3,7 @@ package com.nowcoder.mycommunity.controller;
 //import ch.qos.logback.core.model.Model;
 import com.nowcoder.mycommunity.service.AlphaService;
 import com.nowcoder.mycommunity.util.CommunityUtil;
+import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -185,5 +186,13 @@ public class AlphaController {
         System.out.println(session.getAttribute("id"));
         System.out.println(session.getAttribute("name"));
         return "get session";
+    }
+
+    @RequestMapping(path = "ajax", method = RequestMethod.POST)
+    @ResponseBody
+    public String testAjax(String name, int age){
+        System.out.println(name);
+        System.out.println(age);
+        return CommunityUtil.getJSONString(0, "success");
     }
 }
