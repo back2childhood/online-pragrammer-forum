@@ -1,9 +1,13 @@
 package com.nowcoder.mycommunity.controller;
 
+import com.nowcoder.mycommunity.entity.Comment;
 import com.nowcoder.mycommunity.entity.DiscussPost;
+import com.nowcoder.mycommunity.entity.Page;
 import com.nowcoder.mycommunity.entity.User;
+import com.nowcoder.mycommunity.service.CommentService;
 import com.nowcoder.mycommunity.service.DiscussPostService;
 import com.nowcoder.mycommunity.service.UserService;
+import com.nowcoder.mycommunity.util.CommunityConstant;
 import com.nowcoder.mycommunity.util.CommunityUtil;
 import com.nowcoder.mycommunity.util.HostHolder;
 import org.apache.commons.lang3.StringUtils;
@@ -12,11 +16,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
+import java.util.*;
 
 @Controller
 @RequestMapping("/discuss")
-public class DiscussPostController {
+public class DiscussPostController implements CommunityConstant {
 
     @Autowired
     private DiscussPostService discussPostService;
@@ -26,6 +30,9 @@ public class DiscussPostController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private CommentService commentService;
 
     @RequestMapping(path = "add", method = RequestMethod.POST)
     @ResponseBody
@@ -54,7 +61,7 @@ public class DiscussPostController {
     }
 
     @GetMapping(path = "/detail/{discussPostId}")
-    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model){
+    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page){
         DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
         model.addAttribute("post", post);
 
@@ -66,6 +73,56 @@ public class DiscussPostController {
         // this solution is slower, but we can use redis to speed up.
         User user = userService.findUserById(post.getUserId());
         model.addAttribute("user", user);
+
+        // comment paging information
+        page.setLimit(5);
+        page.setPath("/discuss/detail/" + discussPostId);
+        page.setRows(post.getCommentCount());
+
+        // comments: comments of the post
+        // replies: comments of the comment
+
+        // comments list
+        List<Comment> commentslist = commentService.findCommentByEntity(ENTITY_TYPE_POST, post.getId(),
+                page.getOffset(), page.getLimit());
+
+        // comment view object list
+        List<Map<String, Object>> commentVoList = new ArrayList<>();
+        if(commentslist != null){
+            for(Comment comment : commentslist){
+                // comments vo
+                Map<String, Object> commentVo = new HashMap<>();
+                // comment
+                commentVo.put("comment", comment);
+                // author
+                commentVo.put("user", userService.findUserById(comment.getUserId()));
+
+                // replies list
+                List<Comment> replyList = commentService.findCommentByEntity(ENTITY_TYPE_COMMENT, comment.getId(),
+                        0, Integer.MAX_VALUE);
+                // relies view object list
+                List<Map<String, Object>> replyVoList = new ArrayList<>();
+                if(replyList != null){
+                    for(Comment reply : replyList){
+                        Map<String, Object> replyVo = new HashMap<>();
+                        replyVo.put("reply", reply);
+                        replyVo.put("user", userService.findUserById(reply.getUserId()));
+                        User target = reply.getTargetId() == 0 ? null : userService.findUserById(reply.getTargetId());
+                        replyVo.put("target", target);
+
+                        replyVoList.add(replyVo);
+                    }
+                }
+                commentVo.put("replies", replyVoList);
+
+                // number of replies
+                int replyCount = commentService.findCommentCount(ENTITY_TYPE_COMMENT, comment.getId());
+                commentVo.put("replyCount", replyCount);
+
+                commentVoList.add(commentVo);
+            }
+        }
+        model.addAttribute("comment", commentVoList);
 
         return "/site/discuss-detail";
     }
