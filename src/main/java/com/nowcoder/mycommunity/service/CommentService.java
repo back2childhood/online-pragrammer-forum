@@ -1,6 +1,6 @@
 package com.nowcoder.mycommunity.service;
 
-import com.nowcoder.mycommunity.dao.Comment;
+import com.nowcoder.mycommunity.dao.CommentWrapper;
 import com.nowcoder.mycommunity.dao.CommentWrapper;
 import com.nowcoder.mycommunity.entity.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
