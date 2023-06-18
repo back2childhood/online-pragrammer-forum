@@ -15,5 +15,5 @@ http://www.localhost:8080/myCommunity/index
 ## core functions and technologies
 
 ## TODO
-* add change password function
+* amend message function
 * 
