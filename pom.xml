@@ -89,6 +89,8 @@
 			<version>2.0.33</version>
 		</dependency>
 
+xml
+
 	</dependencies>
 
 	<build>
