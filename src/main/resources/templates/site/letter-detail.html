@@ -76,7 +76,7 @@
 					<div class="modal-dialog modal-lg" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="exampleModalLabel">发私信</h5>
+								<h5 class="modal-title" id="exampleModalLabel">send message</h5>
 								<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 									<span aria-hidden="true">&times;</span>
 								</button>
@@ -84,18 +84,18 @@
 							<div class="modal-body">
 								<form>
 									<div class="form-group">
-										<label for="recipient-name" class="col-form-label">发给：</label>
+										<label for="recipient-name" class="col-form-label">send to：</label>
 										<input type="text" class="form-control" id="recipient-name" th:value="${target.username}">
 									</div>
 									<div class="form-group">
-										<label for="message-text" class="col-form-label">内容：</label>
+										<label for="message-text" class="col-form-label">content：</label>
 										<textarea class="form-control" id="message-text" rows="10"></textarea>
 									</div>
 								</form>
 							</div>
 							<div class="modal-footer">
-								<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
-								<button type="button" class="btn btn-primary" id="sendBtn">发送</button>
+								<button type="button" class="btn btn-secondary" data-dismiss="modal">cancel</button>
+								<button type="button" class="btn btn-primary" id="sendBtn">send</button>
 							</div>
 						</div>
 					</div>
@@ -105,10 +105,10 @@
 					<div class="modal-dialog modal-lg" role="document">
 						<div class="modal-content">
 							<div class="modal-header">
-								<h5 class="modal-title" id="hintModalLabel">提示</h5>
+								<h5 class="modal-title" id="hintModalLabel">hint</h5>
 							</div>
 							<div class="modal-body" id="hintBody">
-								发送完毕!
+								send success!
 							</div>
 						</div>
 					</div>
@@ -135,7 +135,7 @@
 					</li>
 				</ul>
 				<!-- 分页 -->
-				<nav class="mt-5" th:replace="index::pagination">
+				<nav class="mt-5" th:replace="~{index::pagination}">
 					<ul class="pagination justify-content-center">
 						<li class="page-item"><a class="page-link" href="#">首页</a></li>
 						<li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>

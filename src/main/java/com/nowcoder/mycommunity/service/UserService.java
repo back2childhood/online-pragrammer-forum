@@ -201,4 +201,8 @@ public class UserService implements CommunityConstant {
 //        clearCache(user.getId());
         return map;
     }
+
+    public User findUserbyName(String username){
+        return userMapper.selectByName(username);
+    }
 }

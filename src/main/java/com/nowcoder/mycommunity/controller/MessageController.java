@@ -5,19 +5,14 @@ import com.nowcoder.mycommunity.entity.Page;
 import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.service.MessageService;
 import com.nowcoder.mycommunity.service.UserService;
+import com.nowcoder.mycommunity.util.CommunityUtil;
 import com.nowcoder.mycommunity.util.HostHolder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class MessageController {
@@ -89,11 +84,11 @@ public class MessageController {
         // private message target
         model.addAttribute("target", getLetterTarget(conversationId));
 
-//        // set to read
-//        List<Integer> ids = getLetterIds(letterList);
-//        if (!ids.isEmpty()) {
-//            messageService.readMessage(ids);
-//        }
+        // set to read
+        List<Integer> ids = getLetterIds(letterList);
+        if (!ids.isEmpty()) {
+            messageService.readMessage(ids);
+        }
 
         return "/site/letter-detail";
     }
@@ -122,5 +117,29 @@ public class MessageController {
         }
 
         return ids;
+    }
+
+    @PostMapping(path = "/letter/send")
+    @ResponseBody
+    public String sendLetter(String toName, String content){
+        User target = userService.findUserbyName(toName);
+        if(target == null){
+            return CommunityUtil.getJSONString(1, "the target user doesn't exist");
+        }
+
+        Message message = new Message();
+        message.setFromId(hostHolder.getUser().getId());
+        message.setToId(target.getId());
+        if(message.getFromId() < message.getToId()){
+            message.setConversationId(message.getFromId() + "_" + message.getToId());
+        }else{
+            message.setConversationId(message.getToId() + "_" + message.getFromId());
+        }
+
+        message.setContent(content);
+        message.setCreateTime(new Date());
+        messageService.addMessage(message);
+
+        return CommunityUtil.getJSONString(0);
     }
 }
