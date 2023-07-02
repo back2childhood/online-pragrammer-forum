@@ -35,17 +35,17 @@ public class AlphaService {
     @Autowired
     private TransactionTemplate transactionTemplate;
 
-    public String find(){
+    public String find() {
         return alphaDao.select();
     }
 
     @PostConstruct
-    public void init(){
+    public void init() {
         System.out.println("initiative");
     }
 
     @PreDestroy
-    public void destroy(){
+    public void destroy() {
         System.out.println("destroy");
     }
 
@@ -54,7 +54,7 @@ public class AlphaService {
     // Propagation.NESTED : execute within a nested transaction if a current transaction exists,
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
     // when a new user signs up, the system will automatically post for him (newbie)
-    public Object save1(){
+    public Object save1() {
         // add a new user
         User user = new User();
         user.setUsername("alpha");
@@ -78,13 +78,13 @@ public class AlphaService {
         return "ok";
     }
 
-    public Object save2(){
+    public Object save2() {
         transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
         return transactionTemplate.execute(new TransactionCallback<Object>() {
             @Override
-            public Object doInTransaction(TransactionStatus status){
+            public Object doInTransaction(TransactionStatus status) {
                 // add a new user
                 User user = new User();
                 user.setUsername("alpha");

@@ -40,16 +40,16 @@ public class DiscussPostController implements CommunityConstant {
 
     @RequestMapping(path = "add", method = RequestMethod.POST)
     @ResponseBody
-    public String addDiscussPost(String title, String content){
-        if(StringUtils.isBlank(title)){
+    public String addDiscussPost(String title, String content) {
+        if (StringUtils.isBlank(title)) {
             return CommunityUtil.getJSONString(403, "title can't be empty");
         }
-        if(StringUtils.isBlank(content)){
+        if (StringUtils.isBlank(content)) {
             return CommunityUtil.getJSONString(403, "content can't be empty");
         }
 
         User user = hostHolder.getUser();
-        if(user == null){
+        if (user == null) {
             return CommunityUtil.getJSONString(403, "you should log in first");
         }
 
@@ -65,7 +65,7 @@ public class DiscussPostController implements CommunityConstant {
     }
 
     @GetMapping(path = "/detail/{discussPostId}")
-    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page){
+    public String getDiscussPost(@PathVariable("discussPostId") int discussPostId, Model model, Page page) {
         DiscussPost post = discussPostService.findDiscussPostById(discussPostId);
         model.addAttribute("post", post);
 
@@ -83,7 +83,7 @@ public class DiscussPostController implements CommunityConstant {
         model.addAttribute("likeCount", likeCount);
         // like status
 
-        int likeStatus = hostHolder.getUser() == null? 0 :
+        int likeStatus = hostHolder.getUser() == null ? 0 :
                 likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_POST, discussPostId);
         model.addAttribute("likeStatus", likeStatus);
 
@@ -101,8 +101,8 @@ public class DiscussPostController implements CommunityConstant {
 
         // comment view object list
         List<Map<String, Object>> commentVoList = new ArrayList<>();
-        if(commentslist != null){
-            for(Comment comment : commentslist){
+        if (commentslist != null) {
+            for (Comment comment : commentslist) {
                 // comments vo
                 Map<String, Object> commentVo = new HashMap<>();
                 // comment
@@ -114,7 +114,7 @@ public class DiscussPostController implements CommunityConstant {
                 likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeCount", likeCount);
                 // like status
-                likeStatus = hostHolder.getUser() == null? 0 :
+                likeStatus = hostHolder.getUser() == null ? 0 :
                         likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, comment.getId());
                 commentVo.put("likeStatus", likeStatus);
 
@@ -123,8 +123,8 @@ public class DiscussPostController implements CommunityConstant {
                         0, Integer.MAX_VALUE);
                 // relies view object list
                 List<Map<String, Object>> replyVoList = new ArrayList<>();
-                if(replyList != null){
-                    for(Comment reply : replyList){
+                if (replyList != null) {
+                    for (Comment reply : replyList) {
                         Map<String, Object> replyVo = new HashMap<>();
                         replyVo.put("reply", reply);
                         replyVo.put("user", userService.findUserById(reply.getUserId()));
@@ -135,7 +135,7 @@ public class DiscussPostController implements CommunityConstant {
                         likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeCount", likeCount);
                         // like status
-                        likeStatus = hostHolder.getUser() == null? 0 :
+                        likeStatus = hostHolder.getUser() == null ? 0 :
                                 likeService.findEntityLikeStatus(hostHolder.getUser().getId(), ENTITY_TYPE_COMMENT, reply.getId());
                         replyVo.put("likeStatus", likeStatus);
 

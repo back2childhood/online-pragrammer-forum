@@ -1,6 +1,5 @@
 package com.nowcoder.mycommunity.entity;
 
-import javax.xml.crypto.Data;
 import java.util.Date;
 
 public class Comment {

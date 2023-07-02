@@ -1,6 +1,5 @@
 package com.nowcoder.mycommunity.config;
 
-import com.fasterxml.jackson.databind.ser.std.StdKeySerializers;
 import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.code.kaptcha.util.Config;
@@ -12,7 +11,7 @@ import java.util.Properties;
 @Configuration
 public class KaptchaConfig {
     @Bean
-    public Producer kaptchaProducer(){
+    public Producer kaptchaProducer() {
         Properties properties = new Properties();
         properties.setProperty("kaptcha.image.width", "100");
         properties.setProperty("kaptcha.image.height", "40");

@@ -5,11 +5,9 @@ import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.service.UserService;
 import com.nowcoder.mycommunity.util.CookieUtil;
 import com.nowcoder.mycommunity.util.HostHolder;
-import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -27,7 +25,6 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     private HostHolder hostHolder;
 
     /**
-     *
      * @param request
      * @param response
      * @param handler
@@ -38,12 +35,12 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // get certificate from cookie
         String ticket = CookieUtil.getValue(request, "ticket");
-        if(ticket != null){
+        if (ticket != null) {
             // query the certificate
             LoginTicket loginTicket = userService.findLoginTicket(ticket);
 
             // check if the certificate valid
-            if(loginTicket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date())){
+            if (loginTicket != null && loginTicket.getStatus() == 0 && loginTicket.getExpired().after(new Date())) {
                 // query users base on the certificate
                 User user = userService.findUserById(loginTicket.getUserId());
 
@@ -57,7 +54,7 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable ModelAndView modelAndView) throws Exception {
         User user = hostHolder.getUser();
-        if(user != null && modelAndView != null){
+        if (user != null && modelAndView != null) {
             modelAndView.addObject("loginUser", user);
         }
     }

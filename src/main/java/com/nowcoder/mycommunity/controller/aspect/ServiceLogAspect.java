@@ -21,16 +21,17 @@ public class ServiceLogAspect {
     private static final Logger logger = LoggerFactory.getLogger(ServiceLogAspect.class);
 
     @Pointcut("execution(* com.nowcoder.mycommunity.service.*.*(..))")
-    public void pointcut(){
+    public void pointcut() {
 
     }
 
     /**
      * joinpoint means the program that is woven into
+     *
      * @param joinPoint
      */
     @Before("pointcut()")
-    public void before(JoinPoint joinPoint){
+    public void before(JoinPoint joinPoint) {
         // user[1.2.3.4] in[xxx] accessed the [com.nowcoder.mycommunity.service.xxx()]
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();

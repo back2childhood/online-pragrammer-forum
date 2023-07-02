@@ -17,7 +17,7 @@ public class TransactionTest {
     private AlphaService alphaService;
 
     @Test
-    public void testSavel1(){
+    public void testSavel1() {
         Object obj = alphaService.save1();
         System.out.println(obj);
     }

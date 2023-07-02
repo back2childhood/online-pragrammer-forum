@@ -20,17 +20,17 @@ public class ExceptionAdvice {
     @ExceptionHandler({Exception.class})
     public void handleException(Exception e, HttpServletRequest request, HttpServletResponse response) throws IOException {
         logger.error("server is abnormal: " + e.getMessage());
-        for(StackTraceElement element : e.getStackTrace()){
+        for (StackTraceElement element : e.getStackTrace()) {
             logger.error(element.toString());
         }
 
         String xRequestedWith = request.getHeader("x-requested-with");
         // If the request is asynchronous, the string is returned directly
-        if("XMLHttpRequest".equals(xRequestedWith)){
+        if ("XMLHttpRequest".equals(xRequestedWith)) {
             response.setContentType("application/plain;charset=utf-8");
             PrintWriter writer = response.getWriter();
             writer.write(CommunityUtil.getJSONString(1, "server is abnormal"));
-        }else{
+        } else {
             response.sendRedirect(request.getContextPath() + "/error");
         }
     }

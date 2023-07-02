@@ -6,7 +6,6 @@ import com.nowcoder.mycommunity.dao.MessageMapper;
 import com.nowcoder.mycommunity.dao.UserMapper;
 import com.nowcoder.mycommunity.entity.DiscussPost;
 import com.nowcoder.mycommunity.entity.LoginTicket;
-import com.nowcoder.mycommunity.entity.Message;
 import com.nowcoder.mycommunity.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,7 +35,7 @@ public class MapperTests {
     private MessageMapper messageMapper;
 
     @Test
-    public void testSelectUser(){
+    public void testSelectUser() {
         User user = userMapper.selectById(101);
         System.out.println(user);
 
@@ -45,14 +44,14 @@ public class MapperTests {
     }
 
     @Test
-    public void testUpdatatUser(){
+    public void testUpdatatUser() {
         userMapper.updateStatus(101, 2);
         User user = userMapper.selectById(101);
         System.out.println(user);
     }
 
     @Test
-    public void testInsertUser(){
+    public void testInsertUser() {
         User user = new User();
         user.setUsername("111222333444");
         user.setCreateTime(new Date());
@@ -71,9 +70,9 @@ public class MapperTests {
 
 
     @Test
-    public void testSelectDiscuss(){
+    public void testSelectDiscuss() {
         List<DiscussPost> list = discussPostMapper.selectDiscussPosts(149, 0, 10);
-        for(DiscussPost discussPost : list) {
+        for (DiscussPost discussPost : list) {
 //            System.out.println(discussPost);
         }
 
@@ -87,7 +86,7 @@ public class MapperTests {
     }
 
     @Test
-    public void testInsertLoginTicket(){
+    public void testInsertLoginTicket() {
         LoginTicket loginTicket = new LoginTicket();
         loginTicket.setUserId(101);
         loginTicket.setTicket("abc");
@@ -98,7 +97,7 @@ public class MapperTests {
     }
 
     @Test
-    public void testUpdateLoginTicket(){
+    public void testUpdateLoginTicket() {
         LoginTicket loginTicket = loginTicketMapper.selectByTicket("abc");
         System.out.println(loginTicket);
 
@@ -109,7 +108,7 @@ public class MapperTests {
     }
 
     @Test
-    public void testSelectLetters(){
+    public void testSelectLetters() {
 //        List<Message> list = messageMapper.selectConversations(111, 0, 20);
 //        for(Message message : list){
 //            System.out.println(message);

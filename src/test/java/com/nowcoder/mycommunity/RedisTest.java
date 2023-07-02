@@ -23,7 +23,7 @@ public class RedisTest {
     private RedisTemplate redisTemplate;
 
     @Test
-    public void testStrings(){
+    public void testStrings() {
         String redisKey = "test:count";
 
         redisTemplate.opsForValue().set(redisKey, 1);
@@ -34,7 +34,7 @@ public class RedisTest {
     }
 
     @Test
-    public void testHashes(){
+    public void testHashes() {
         String redisKey = "test:user";
 
         redisTemplate.opsForHash().put(redisKey, "id", 1);
@@ -45,7 +45,7 @@ public class RedisTest {
     }
 
     @Test
-    public void testLists(){
+    public void testLists() {
         String redisKey = "list:ids";
 
         redisTemplate.opsForList().leftPush(redisKey, "id");
@@ -57,19 +57,19 @@ public class RedisTest {
     }
 
     @Test
-    public void testSortedSets(){
+    public void testSortedSets() {
         String redisKey = "test:students";
 
         redisTemplate.opsForZSet().add(redisKey, "qjl", 80);
         redisTemplate.opsForZSet().add(redisKey, "zhj", 90);
 
         System.out.println(redisTemplate.opsForZSet().zCard(redisKey));
-        System.out.println(redisTemplate.opsForZSet().score(redisKey,"qjl"));
+        System.out.println(redisTemplate.opsForZSet().score(redisKey, "qjl"));
         System.out.println(redisTemplate.opsForZSet().reverseRank(redisKey, "qjl"));
     }
 
     @Test
-    public void testKeys(){
+    public void testKeys() {
         redisTemplate.delete("test:user");
 
         System.out.println(redisTemplate.hasKey("test:user"));
@@ -78,7 +78,7 @@ public class RedisTest {
 
     // if you query the same key multiple times
     @Test
-    public void testBoundOperation(){
+    public void testBoundOperation() {
         String redisKey = "test:count";
         BoundValueOperations operations = redisTemplate.boundValueOps(redisKey);
 
@@ -90,7 +90,7 @@ public class RedisTest {
     }
 
     @Test
-    public void testTransactional(){
+    public void testTransactional() {
         Object object = redisTemplate.execute(new SessionCallback() {
             @Override
             public Object execute(RedisOperations operations) throws DataAccessException {

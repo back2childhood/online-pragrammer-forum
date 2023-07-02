@@ -1,6 +1,5 @@
 package com.nowcoder.mycommunity.service;
 
-import com.fasterxml.jackson.annotation.JacksonAnnotationsInside;
 import com.nowcoder.mycommunity.dao.LoginTicketMapper;
 import com.nowcoder.mycommunity.dao.UserMapper;
 import com.nowcoder.mycommunity.entity.LoginTicket;
@@ -11,12 +10,10 @@ import com.nowcoder.mycommunity.util.MailClient;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
-import java.nio.channels.Pipe;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,33 +39,33 @@ public class UserService implements CommunityConstant {
     @Autowired
     private LoginTicketMapper loginTicketMapper;
 
-    public User findUserById(int userId){
+    public User findUserById(int userId) {
         return userMapper.selectById(userId);
     }
 
-    public Map<String, Object> register(User user){
+    public Map<String, Object> register(User user) {
         Map<String, Object> map = new HashMap<>();
 
-        if(user == null){
+        if (user == null) {
             throw new IllegalArgumentException("The parameter cannot be null");
         }
-        if(StringUtils.isBlank(user.getUsername())){
+        if (StringUtils.isBlank(user.getUsername())) {
             map.put("usernameMsg", "user name cannot be null!");
         }
-        if(StringUtils.isBlank(user.getPassword())){
+        if (StringUtils.isBlank(user.getPassword())) {
             map.put("passwordMsg", "password cannot be null!");
         }
-        if(StringUtils.isBlank(user.getEmail())){
+        if (StringUtils.isBlank(user.getEmail())) {
             map.put("emailMsg", "email cannot be null!");
         }
 
         User u = userMapper.selectByName(user.getUsername());
-        if(u != null){
+        if (u != null) {
             map.put("usernameMsg", "this account is exists");
             return map;
         }
         u = userMapper.selectByEmail(user.getEmail());
-        if(u != null){
+        if (u != null) {
             map.put("emailMsg", "this account is exists");
             return map;
         }
@@ -91,34 +88,34 @@ public class UserService implements CommunityConstant {
         String content = templateEngine.process("/mail/activation", context);
         try {
             mailClient.sendMail(user.getEmail(), "activate account", content);
-        }catch (Exception e){
+        } catch (Exception e) {
             map.put("emailMsg", "email address is invalid!");
         }
         return map;
     }
 
-    public int activation(int userId, String code){
+    public int activation(int userId, String code) {
         User user = userMapper.selectById(userId);
         if (user.getStatus() == 1) {
             return ACTAVATION_REPEATE;
-        }else if(user.getActivationCode().equals(code)){
+        } else if (user.getActivationCode().equals(code)) {
             userMapper.updateStatus(userId, 1);
             return ACTIVATION_SUCCESS;
-        }else{
+        } else {
             return ACTAVATION_FAILED;
         }
     }
 
-    public Map<String, Object> login(String username, String password, int expiredSeconds){
+    public Map<String, Object> login(String username, String password, int expiredSeconds) {
         Map<String, Object> map = new HashMap<>();
 
         // handle null value
-        if(StringUtils.isBlank(username)){
+        if (StringUtils.isBlank(username)) {
             map.put("usernameMsg", "the account cannot be empty");
             return map;
         }
 
-        if(StringUtils.isBlank(password)){
+        if (StringUtils.isBlank(password)) {
             map.put("passwordMsg", "the password cannot be empty");
             return map;
         }
@@ -157,9 +154,10 @@ public class UserService implements CommunityConstant {
 
     /**
      * don't need return a value, it will success if there is no error
+     *
      * @param ticket
      */
-    public void logout(String ticket){
+    public void logout(String ticket) {
         loginTicketMapper.updateStatus(ticket, 1);
     }
 
@@ -167,7 +165,7 @@ public class UserService implements CommunityConstant {
         return loginTicketMapper.selectByTicket(ticket);
     }
 
-    public int updateHeader(int userId, String headUrl){
+    public int updateHeader(int userId, String headUrl) {
         return userMapper.updateHeaders(userId, headUrl);
     }
 
@@ -202,7 +200,7 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
-    public User findUserbyName(String username){
+    public User findUserbyName(String username) {
         return userMapper.selectByName(username);
     }
 }

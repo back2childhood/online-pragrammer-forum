@@ -15,7 +15,7 @@ public class LoggerTest {
     private final static Logger logger = LoggerFactory.getLogger(LoggerTest.class);
 
     @Test
-    public void testLogger(){
+    public void testLogger() {
         System.out.println(logger.getName());
 
         logger.debug("debug");

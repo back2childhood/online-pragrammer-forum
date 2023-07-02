@@ -10,7 +10,6 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.lang.reflect.Method;
-import java.util.logging.Handler;
 
 @Component
 public class LoginRequireInterceptor implements HandlerInterceptor {
@@ -20,6 +19,7 @@ public class LoginRequireInterceptor implements HandlerInterceptor {
 
     /**
      * check whether the user is logged before doing anything else, so we should use preHandle method
+     *
      * @param request
      * @param response
      * @param handler
@@ -28,7 +28,7 @@ public class LoginRequireInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if(handler instanceof HandlerMethod){
+        if (handler instanceof HandlerMethod) {
             HandlerMethod handlerMethod = (HandlerMethod) handler;
 
             // get the intercepted method object
@@ -36,7 +36,7 @@ public class LoginRequireInterceptor implements HandlerInterceptor {
             // get the annotation
             LoginRequired loginRequired = method.getAnnotation(LoginRequired.class);
             // The current method requires a login, but the user is not logged in
-            if(loginRequired != null && hostHolder.getUser() == null){
+            if (loginRequired != null && hostHolder.getUser() == null) {
                 response.sendRedirect(request.getContextPath() + "/login");
                 return false;
             }

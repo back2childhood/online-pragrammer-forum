@@ -7,7 +7,6 @@ import com.nowcoder.mycommunity.service.DiscussPostService;
 import com.nowcoder.mycommunity.service.LikeService;
 import com.nowcoder.mycommunity.service.UserService;
 import com.nowcoder.mycommunity.util.CommunityConstant;
-import com.nowcoder.mycommunity.util.CommunityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -33,7 +32,7 @@ public class HomeController implements CommunityConstant {
     private LikeService likeService;
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
-    public String getIndexPage(Model model, Page page){
+    public String getIndexPage(Model model, Page page) {
         // before the method is called, SpringMVC automatically instantiates the Model and Page, and
         // injects the Page into Model
         // so, it is possible to access the data in the Page object directly from thymeleaf
@@ -42,8 +41,8 @@ public class HomeController implements CommunityConstant {
 
         List<DiscussPost> list = discussPostService.discussPosts(0, page.getOffset(), page.getLimit());
         List<Map<String, Object>> discussPosts = new ArrayList<>();
-        if(list != null){
-            for(DiscussPost discussPost : list){
+        if (list != null) {
+            for (DiscussPost discussPost : list) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("post", discussPost);
 
@@ -61,7 +60,7 @@ public class HomeController implements CommunityConstant {
     }
 
     @GetMapping(path = "/error")
-    public String getErrorPage(){
+    public String getErrorPage() {
         return "/error/500";
     }
 }

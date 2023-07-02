@@ -18,16 +18,16 @@ public class DiscussPostService {
     @Autowired
     private SensitiveFilter sensitiveFilter;
 
-    public List<DiscussPost> discussPosts(int userId, int offset, int limit){
+    public List<DiscussPost> discussPosts(int userId, int offset, int limit) {
         return discussPostMapper.selectDiscussPosts(userId, offset, limit);
     }
 
-    public int findDiscussPostRows(int userId){
+    public int findDiscussPostRows(int userId) {
         return discussPostMapper.selectDiscussPostRows(userId);
     }
 
-    public int addDiscussPost(DiscussPost discussPost){
-        if(discussPost == null){
+    public int addDiscussPost(DiscussPost discussPost) {
+        if (discussPost == null) {
             throw new IllegalArgumentException("paramater can't be null");
         }
 
@@ -42,11 +42,11 @@ public class DiscussPostService {
         return discussPostMapper.insertDiscussPost(discussPost);
     }
 
-    public DiscussPost findDiscussPostById(int id){
+    public DiscussPost findDiscussPostById(int id) {
         return discussPostMapper.selectDiscussPostById(id);
     }
 
-    public int updateCommentCount(int id, int commentCount){
+    public int updateCommentCount(int id, int commentCount) {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 }

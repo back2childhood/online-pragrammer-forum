@@ -15,7 +15,7 @@ public class LikeService {
     private RedisTemplate redisTemplate;
 
     // like
-    public void like(int userId, int entityType, int entityId, int entityUserId){
+    public void like(int userId, int entityType, int entityId, int entityUserId) {
         // we should assure transactional of redis
 //        String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
 //        boolean isMember = redisTemplate.opsForSet().isMember(entityLikeKey, userId);
@@ -36,7 +36,7 @@ public class LikeService {
                 if (isMember) {
                     redisTemplate.opsForSet().remove(entityLikeKey, userId);
                     redisTemplate.opsForValue().decrement(userLikeKey);
-                }else{
+                } else {
                     redisTemplate.opsForSet().add(entityLikeKey, userId);
                     redisTemplate.opsForValue().increment(userLikeKey);
                 }
@@ -46,23 +46,23 @@ public class LikeService {
     }
 
     // query the number of like
-    public long findEntityLikeCount(int entityType, int entityId){
+    public long findEntityLikeCount(int entityType, int entityId) {
         String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
         return redisTemplate.opsForSet().size(entityLikeKey);
     }
 
     // Check whether the user has liked this comment
     // boolean only have two status, we can use int to show three status : like, dislike, none
-    public int findEntityLikeStatus(int userId, int entityType, int entityId){
+    public int findEntityLikeStatus(int userId, int entityType, int entityId) {
         String entityLikeKey = RedisKeyUtil.getEntityLikeKey(entityType, entityId);
         return Boolean.TRUE.equals(redisTemplate.opsForSet().isMember(entityLikeKey, userId)) ? 1 : 0;
     }
 
     // Query the total number of likes received by a user
-    public int findUserLikeCount(int userId){
+    public int findUserLikeCount(int userId) {
         String userLikeKey = RedisKeyUtil.getUserLikeKey(userId);
         Integer count = (Integer) redisTemplate.opsForValue().get(userLikeKey);
 
-        return count == null? 0 : count;
+        return count == null ? 0 : count;
     }
 }

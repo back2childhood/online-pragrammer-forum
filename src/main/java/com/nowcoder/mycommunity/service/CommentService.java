@@ -1,7 +1,6 @@
 package com.nowcoder.mycommunity.service;
 
 import com.nowcoder.mycommunity.dao.CommentMapper;
-import com.nowcoder.mycommunity.dao.CommentMapper;
 import com.nowcoder.mycommunity.entity.Comment;
 import com.nowcoder.mycommunity.util.CommunityConstant;
 import com.nowcoder.mycommunity.util.SensitiveFilter;
@@ -26,17 +25,17 @@ public class CommentService implements CommunityConstant {
     @Autowired
     private DiscussPostService discussPostService;
 
-    public List<Comment> findCommentByEntity(int entityType, int entityId, int offset, int limit){
+    public List<Comment> findCommentByEntity(int entityType, int entityId, int offset, int limit) {
         return commentMapper.selectCommentByEntity(entityType, entityId, offset, limit);
     }
 
-    public int findCommentCount(int entityType, int entityId){
+    public int findCommentCount(int entityType, int entityId) {
         return commentMapper.selectCountByEntity(entityType, entityId);
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, propagation = Propagation.REQUIRED)
-    public int addComment(Comment comment){
-        if(comment == null){
+    public int addComment(Comment comment) {
+        if (comment == null) {
             throw new IllegalArgumentException("the parameter can't be null");
         }
         comment.setContent(HtmlUtils.htmlEscape(comment.getContent()));
@@ -44,7 +43,7 @@ public class CommentService implements CommunityConstant {
         int rows = commentMapper.insertComment(comment);
 
         // update the number of posts' comment
-        if(comment.getEntityType() == ENTITY_TYPE_POST){
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
             int count = commentMapper.selectCountByEntity(comment.getEntityType(), comment.getEntityId());
             discussPostService.updateCommentCount(comment.getEntityId(), count);
         }

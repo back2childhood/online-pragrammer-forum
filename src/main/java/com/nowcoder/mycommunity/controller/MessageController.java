@@ -28,7 +28,7 @@ public class MessageController {
 
     // list of private list
     @RequestMapping(path = "/letter/list", method = RequestMethod.GET)
-    public String getLetterList(Model model, Page page){
+    public String getLetterList(Model model, Page page) {
         User user = hostHolder.getUser();
 
         // paging information
@@ -121,18 +121,18 @@ public class MessageController {
 
     @PostMapping(path = "/letter/send")
     @ResponseBody
-    public String sendLetter(String toName, String content){
+    public String sendLetter(String toName, String content) {
         User target = userService.findUserbyName(toName);
-        if(target == null){
+        if (target == null) {
             return CommunityUtil.getJSONString(1, "the target user doesn't exist");
         }
 
         Message message = new Message();
         message.setFromId(hostHolder.getUser().getId());
         message.setToId(target.getId());
-        if(message.getFromId() < message.getToId()){
+        if (message.getFromId() < message.getToId()) {
             message.setConversationId(message.getFromId() + "_" + message.getToId());
-        }else{
+        } else {
             message.setConversationId(message.getToId() + "_" + message.getFromId());
         }
 

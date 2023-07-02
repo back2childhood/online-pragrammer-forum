@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.w3c.dom.Text;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -18,7 +17,7 @@ public class SensitiveTest {
     private SensitiveFilter sensitiveFilter;
 
     @Test
-    public void testSensitiveFilter(){
+    public void testSensitiveFilter() {
         String test = "fuckyyyycn👌🏻mfashdsaf";
         test = sensitiveFilter.filter(test);
 

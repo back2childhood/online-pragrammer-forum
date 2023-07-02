@@ -1,24 +1,22 @@
 package com.nowcoder.mycommunity.controller;
 
 //import ch.qos.logback.core.model.Model;
+
 import com.nowcoder.mycommunity.service.AlphaService;
 import com.nowcoder.mycommunity.util.CommunityUtil;
-import jakarta.servlet.ServletOutputStream;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.Writer;
 import java.util.*;
-
-import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/alpha")
@@ -29,13 +27,13 @@ public class AlphaController {
 
     @ResponseBody
     @RequestMapping("/hello")
-    public String sayHello(){
+    public String sayHello() {
         return "hello world";
     }
 
     @ResponseBody
     @RequestMapping("/data")
-    public String getData(){
+    public String getData() {
         return alphaService.find();
     }
 
@@ -45,7 +43,7 @@ public class AlphaController {
         System.out.println(request.getMethod());
         System.out.println(request.getServletPath());
         Enumeration<String> enumeration = request.getHeaderNames();
-        while (enumeration.hasMoreElements()){
+        while (enumeration.hasMoreElements()) {
             String name = enumeration.nextElement();
             String value = request.getHeader(name);
             System.out.println(name + ": " + value);
@@ -56,10 +54,10 @@ public class AlphaController {
         // return response data
         response.setContentType("text/html;charset=utf-8");
         try (
-            PrintWriter printWriter = response.getWriter();
-        ){
+                PrintWriter printWriter = response.getWriter();
+        ) {
             printWriter.write("<h1>NeoCoder</h1>");
-        }catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -69,8 +67,8 @@ public class AlphaController {
     @RequestMapping(path = "/students", method = RequestMethod.GET)
     @ResponseBody
     public String getStudents(
-            @RequestParam(name = "current",required = false, defaultValue = "1") int current,
-            @RequestParam(name = "limit",required = false, defaultValue = "20") int limit){
+            @RequestParam(name = "current", required = false, defaultValue = "1") int current,
+            @RequestParam(name = "limit", required = false, defaultValue = "20") int limit) {
         System.out.println(current);
         System.out.println(limit);
         return "all students";
@@ -78,7 +76,7 @@ public class AlphaController {
 
     @RequestMapping(path = "/student/{id}", method = RequestMethod.GET)
     @ResponseBody
-    public String getStudent(@PathVariable("id") int id){
+    public String getStudent(@PathVariable("id") int id) {
         System.out.println(id);
         return "a student";
     }
@@ -86,15 +84,15 @@ public class AlphaController {
     // POST request
     @RequestMapping(path = "/student", method = RequestMethod.POST)
     @ResponseBody
-    public String saveStudent(String name, int age){
-        System.out.println(name+" "+age);
+    public String saveStudent(String name, int age) {
+        System.out.println(name + " " + age);
         return "success";
     }
 
     // html response
     @RequestMapping(path = "/teacher", method = RequestMethod.GET)
     @ResponseBody
-    public ModelAndView getTeacher(){
+    public ModelAndView getTeacher() {
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.addObject("name", "tom");
         modelAndView.addObject("age", "15");
@@ -104,7 +102,7 @@ public class AlphaController {
     }
 
     @RequestMapping(path = "/school", method = RequestMethod.GET)
-    public String getSchool(Model model){
+    public String getSchool(Model model) {
         model.addAttribute("name", "king");
         model.addAttribute("age", "15");
         return "/demo/view";
@@ -113,7 +111,7 @@ public class AlphaController {
     // json response; commonly used in async request
     @RequestMapping(path = "/emp", method = RequestMethod.GET)
     @ResponseBody
-    public Map<String, Object> getEmp(){
+    public Map<String, Object> getEmp() {
         Map<String, Object> map = new HashMap<>();
         map.put("name", "tom");
         map.put("age", 32);
@@ -123,7 +121,7 @@ public class AlphaController {
 
     @RequestMapping(path = "/emps", method = RequestMethod.GET)
     @ResponseBody
-    public List<Map<String, Object>> getEmps(){
+    public List<Map<String, Object>> getEmps() {
         List<Map<String, Object>> list = new ArrayList<>();
 
         Map<String, Object> map = new HashMap<>();
@@ -150,7 +148,7 @@ public class AlphaController {
     //cookie
     @RequestMapping(path = "/cookie/set", method = RequestMethod.GET)
     @ResponseBody
-    public String setCookie(HttpServletResponse response){
+    public String setCookie(HttpServletResponse response) {
         // create cookie
         Cookie cookie = new Cookie("code", CommunityUtil.generateUUID());
         // Sets the range over which the cookie is valid
@@ -165,7 +163,7 @@ public class AlphaController {
 
     @RequestMapping(path = "/cookie/get", method = RequestMethod.GET)
     @ResponseBody
-    public String getCookie(@CookieValue("code") String code){
+    public String getCookie(@CookieValue("code") String code) {
         System.out.println(code);
 
         return "get cookie";
@@ -174,7 +172,7 @@ public class AlphaController {
     // demo of session
     @RequestMapping(path = "/session/set", method = RequestMethod.GET)
     @ResponseBody
-    public String setSession(HttpSession session){
+    public String setSession(HttpSession session) {
         session.setAttribute("id", 1);
         session.setAttribute("name", "Test");
         return "set session";
@@ -182,7 +180,7 @@ public class AlphaController {
 
     @RequestMapping(path = "/session/get", method = RequestMethod.GET)
     @ResponseBody
-    public String getSession(HttpSession session){
+    public String getSession(HttpSession session) {
         System.out.println(session.getAttribute("id"));
         System.out.println(session.getAttribute("name"));
         return "get session";
@@ -190,7 +188,7 @@ public class AlphaController {
 
     @RequestMapping(path = "ajax", method = RequestMethod.POST)
     @ResponseBody
-    public String testAjax(String name, int age){
+    public String testAjax(String name, int age) {
         System.out.println(name);
         System.out.println(age);
         return CommunityUtil.getJSONString(0, "success");

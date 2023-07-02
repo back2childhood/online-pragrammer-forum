@@ -17,6 +17,7 @@ public interface LoginTicketMapper {
             "from login_ticket where ticket = #{ticket}"
     })
     LoginTicket selectByTicket(String ticket);
+
     @Update({
             "<script>",
             "update login_ticket set status=#{status} where ticket = #{ticket} ",

@@ -5,15 +5,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
-import org.springframework.data.redis.support.collections.RedisCollection;
-import org.springframework.data.redis.support.collections.RedisCollectionFactoryBean;
 
 @Configuration
 public class RedisConfig {
 
     // RedisConnectionFactory also is a bean, when you use it, spring will automatically load it.
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory){
+    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(factory);
 

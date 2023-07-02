@@ -1,6 +1,5 @@
 package com.nowcoder.mycommunity.controller;
 
-import com.google.protobuf.compiler.PluginProtos;
 import com.nowcoder.mycommunity.annotation.LoginRequired;
 import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.service.LikeService;
@@ -50,21 +49,21 @@ public class UserController {
 
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
-    public String getSettingPage(){
+    public String getSettingPage() {
         return "/site/setting";
     }
 
     @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
-    public String uploadHeader(MultipartFile headerImage, Model model){
-        if(headerImage == null){
+    public String uploadHeader(MultipartFile headerImage, Model model) {
+        if (headerImage == null) {
             model.addAttribute("error", "please choose a image");
             return "/site/setting";
         }
 
         String filename = headerImage.getOriginalFilename();
-        String suffix =  filename.substring(filename.lastIndexOf("."));
-        if(StringUtils.isBlank(suffix)){
+        String suffix = filename.substring(filename.lastIndexOf("."));
+        if (StringUtils.isBlank(suffix)) {
             model.addAttribute("error", "the file format is incorrect");
             return "/site/setting";
         }
@@ -91,7 +90,7 @@ public class UserController {
     }
 
     @RequestMapping(path = "/header/{fileName}", method = RequestMethod.GET)
-    public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response){
+    public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response) {
         // server storage path
         fileName = uploadPath + "/" + fileName;
         // parsing the file suffix
@@ -101,10 +100,10 @@ public class UserController {
         try (
                 FileInputStream fileInputStream = new FileInputStream(fileName);
                 OutputStream outputStream = response.getOutputStream();
-        ){
+        ) {
             byte[] buffer = new byte[1024];
             int b = 0;
-            while((b = fileInputStream.read(buffer)) != -1){
+            while ((b = fileInputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, b);
             }
         } catch (IOException e) {
@@ -130,7 +129,7 @@ public class UserController {
 
     // personnel homepage
     @GetMapping(path = "/profile/{userId}")
-    public String getProfilePage(@PathVariable("userId") int userId, Model model){
+    public String getProfilePage(@PathVariable("userId") int userId, Model model) {
         User user = userService.findUserById(userId);
         if (user == null) {
             throw new RuntimeException("this user doesn't exist!");

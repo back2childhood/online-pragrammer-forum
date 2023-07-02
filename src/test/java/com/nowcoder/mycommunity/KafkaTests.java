@@ -20,12 +20,12 @@ public class KafkaTests {
     private KafkaProducer kafkaProducer;
 
     @Test
-    public void testKafka(){
+    public void testKafka() {
         kafkaProducer.sendMessage("test", "hello");
         kafkaProducer.sendMessage("test", "world");
 
         try {
-            Thread.sleep(1000*10);
+            Thread.sleep(1000 * 10);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -33,21 +33,21 @@ public class KafkaTests {
 }
 
 @Component
-class KafkaProducer{
+class KafkaProducer {
 
     @Autowired
     public KafkaTemplate kafkaTemplate;
 
-    public void sendMessage(String topic, String content){
+    public void sendMessage(String topic, String content) {
         kafkaTemplate.send(topic, content);
     }
 }
 
 @Component
-class KafkaConsumer{
+class KafkaConsumer {
 
     @KafkaListener(topics = {"test"})
-    public void handleMessage(ConsumerRecord record){
+    public void handleMessage(ConsumerRecord record) {
         System.out.println(record.value());
     }
 }

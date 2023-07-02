@@ -19,7 +19,7 @@ public class Page {
     }
 
     public void setCurrent(int current) {
-        if(current > 1)
+        if (current > 1)
             this.current = current;
     }
 
@@ -28,7 +28,7 @@ public class Page {
     }
 
     public void setLimit(int limit) {
-        if(limit >= 1 && limit <= 100)
+        if (limit >= 1 && limit <= 100)
             this.limit = limit;
     }
 
@@ -37,7 +37,7 @@ public class Page {
     }
 
     public void setRows(int rows) {
-        if(limit >= 1 && limit <= 100)
+        if (limit >= 1 && limit <= 100)
             this.rows = rows;
     }
 
@@ -52,25 +52,25 @@ public class Page {
     /**
      * get the start line of the current page
      */
-    public int getOffset(){
+    public int getOffset() {
         return limit * (current - 1);
     }
 
     /**
      * get the total number of pages
      */
-    public int getTotal(){
-        if(rows % limit == 0) {
+    public int getTotal() {
+        if (rows % limit == 0) {
             return rows / limit;
-        }else{
-            return rows/limit + 1;
+        } else {
+            return rows / limit + 1;
         }
     }
 
     /**
      * get the start page
      */
-    public int getFrom(){
+    public int getFrom() {
         int from = current - 2;
         return from < 1 ? 1 : from;
     }
@@ -78,7 +78,7 @@ public class Page {
     /**
      * get the stop page
      */
-    public int getTo(){
+    public int getTo() {
         int to = current + 2;
         int total = getTotal();
         return to > total ? total : to;

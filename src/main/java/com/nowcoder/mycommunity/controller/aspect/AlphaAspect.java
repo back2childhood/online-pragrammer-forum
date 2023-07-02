@@ -14,34 +14,34 @@ public class AlphaAspect {
     // (..) means all parameter type
     // pointcut
     @Pointcut("execution(* com.nowcoder.mycommunity.service.*.*(..))")
-    public void pointcut(){
+    public void pointcut() {
 
     }
 
     // do this function before pointcut()
     @Before("pointcut()")
-    public void before(){
+    public void before() {
         System.out.println("before");
     }
 
     @After("pointcut()")
-    public void after(){
+    public void after() {
         System.out.println("after");
     }
 
     @AfterReturning("pointcut()")
-    public void afterReturning(){
+    public void afterReturning() {
         System.out.println("afterReturn");
     }
 
     @AfterThrowing("pointcut()")
-    public void afterThrowing(){
+    public void afterThrowing() {
         System.out.println("afterThrowing");
     }
 
     // not only execute this function before pointcut, but after it
     @Around("pointcut()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable{
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         System.out.println("around before");
         Object object = joinPoint.proceed();
         System.out.println("around after");
