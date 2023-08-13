@@ -1,5 +1,7 @@
 package com.nowcoder.mycommunity.entity;
 
+import org.springframework.data.elasticsearch.annotations.Document;
+
 import java.util.Date;
 
 public class DiscussPost {

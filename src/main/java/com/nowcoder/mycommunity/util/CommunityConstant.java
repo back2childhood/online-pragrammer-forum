@@ -29,7 +29,7 @@ public interface CommunityConstant {
     int REMEMBER_EXPIRED_SECONDS = 3600 * 24 * 100;
 
     /**
-     * entity type:posr
+     * entity type:post
      */
     int ENTITY_TYPE_POST = 1;
 
@@ -52,4 +52,9 @@ public interface CommunityConstant {
      * topic:follow
      */
     String TOPIC_FOLLOW = "follow";
+
+    /**
+     * system user ID
+     */
+    int SYSTEM_USER_ID = 1;
 }
