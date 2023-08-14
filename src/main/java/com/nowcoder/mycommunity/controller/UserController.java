@@ -141,6 +141,12 @@ public class UserController {
         int likeCount = likeService.findUserLikeCount(userId);
         model.addAttribute("likeCount", likeCount);
 
+//        boolean hasFollowed = false;
+//        if (hostHolder.getUser() != null) {
+//            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+//        }
+//        model.addAttribute("hasFollowed", hasFollowed);
+
         return "/site/profile";
     }
 }

@@ -9,12 +9,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class EventProducer {
 
-    @Autowired
-    private KafkaTemplate kafkaTemplate;
-
-    // handle event
-    public void fireEvent(Event event) {
-        // send events to the specific topic
-        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
-    }
+//    @Autowired
+//    private KafkaTemplate kafkaTemplate;
+//
+//    // handle event
+//    public void fireEvent(Event event) {
+//        // send events to the specific topic
+//        kafkaTemplate.send(event.getTopic(), JSONObject.toJSONString(event));
+//    }
 }

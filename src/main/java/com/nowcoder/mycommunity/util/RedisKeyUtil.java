@@ -22,13 +22,13 @@ public class RedisKeyUtil {
         return PREFIX_USER_LIKE + SPLIT + userId;
     }
 
-    // a entity followed by someone
+    // entities followed by someone
     // followee:userId:entityType -> zset(entityId, now)
     public static String getFolloweeKey(int userId, int entityType) {
         return PREFIX_FOLLOWEE + SPLIT + userId + SPLIT + entityType;
     }
 
-    // user's follower
+    // People who follow this user
     // follower:entityType:entityId -> zset(userId, now)
     public static String getFollowerKey(int entityType, int entityId) {
         return PREFIX_FOLLOWER + SPLIT + entityType + SPLIT + entityId;

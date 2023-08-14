@@ -104,16 +104,16 @@ public class LoginController implements CommunityConstant {
 
     @RequestMapping(path = "/login", method = RequestMethod.POST)
     public String login(String username, String password, String code, boolean rememberme,
-                        Model model, /*HttpSession session,*/ HttpServletResponse response,
-                        @CookieValue("kaptchaOwner") String kaptchaOwner) {
+                        Model model, HttpSession session, HttpServletResponse response
+                        /*,@CookieValue("kaptchaOwner") String kaptchaOwner*/) {
         // check captha
-//        String kaptcha = (String) session.getAttribute("kaptcha");
+        String kaptcha = (String) session.getAttribute("kaptcha");
 
-        String kaptcha = null;
-        if(StringUtils.isNotBlank(kaptchaOwner)){
-            String redisKey = RedisKeyUtil.getKaptcha(kaptchaOwner);
-//            kaptcha = (String) RedisTemplate.op
-        }
+//        String kaptcha = null;
+//        if(StringUtils.isNotBlank(kaptchaOwner)){
+//            String redisKey = RedisKeyUtil.getKaptcha(kaptchaOwner);
+////            kaptcha = (String) RedisTemplate.op
+//        }
 
         if (StringUtils.isBlank(kaptcha) || StringUtils.isBlank(code) || !kaptcha.equalsIgnoreCase(code)) {
             model.addAttribute("codeMsg", "wrong captcha");
