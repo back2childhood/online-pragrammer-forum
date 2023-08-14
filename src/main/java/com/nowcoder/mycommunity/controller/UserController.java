@@ -2,8 +2,10 @@ package com.nowcoder.mycommunity.controller;
 
 import com.nowcoder.mycommunity.annotation.LoginRequired;
 import com.nowcoder.mycommunity.entity.User;
+import com.nowcoder.mycommunity.service.FollowService;
 import com.nowcoder.mycommunity.service.LikeService;
 import com.nowcoder.mycommunity.service.UserService;
+import com.nowcoder.mycommunity.util.CommunityConstant;
 import com.nowcoder.mycommunity.util.CommunityUtil;
 import com.nowcoder.mycommunity.util.HostHolder;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,11 +23,12 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.HashSet;
 import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements CommunityConstant {
 
     private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -46,6 +49,9 @@ public class UserController {
 
     @Autowired
     private LikeService likeService;
+
+    @Autowired
+    private FollowService followService;
 
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
@@ -137,15 +143,26 @@ public class UserController {
 
         // user
         model.addAttribute("user", user);
+
         // number of received likes
         int likeCount = likeService.findUserLikeCount(userId);
         model.addAttribute("likeCount", likeCount);
 
-//        boolean hasFollowed = false;
-//        if (hostHolder.getUser() != null) {
-//            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
-//        }
-//        model.addAttribute("hasFollowed", hasFollowed);
+        // the number of follow
+        long followeeCount = followService.findFolloweeCount(userId, ENTITY_TYPE_USER);
+        model.addAttribute("followeeCount", followeeCount);
+
+        // the number of subscriptions
+        long followerCount = followService.findFollowerCount(ENTITY_TYPE_USER, userId);
+        model.addAttribute("followerCount", followerCount);
+
+        boolean hasFollowed = false;
+        if (hostHolder.getUser() != null) {
+            hasFollowed = followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
+//            System.out.println(hasFollowed);
+        }
+        model.addAttribute("hasFollowed", hasFollowed);
+//        System.out.println(hostHolder.getUser() != null? true: false);
 
         return "/site/profile";
     }
