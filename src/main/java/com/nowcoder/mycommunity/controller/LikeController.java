@@ -46,17 +46,17 @@ public class LikeController implements CommunityConstant {
         map.put("likeCount", likeCount);
         map.put("likeStatus", likeStatus);
 
-//        // trigger the like event
-//        if(likeStatus == 1){
-//            Event event = new Event()
-//                    .setTopic(TOPIC_LIKE)
-//                    .setUserId(hostHolder.getUser().getId())
-//                    .setEntityType(entityType)
-//                    .setEntityId(entityId)
-//                    .setEntityUserId(entityUserId)
-//                    .setData("postId", postId);
-//            producer.fireEvent(event);
-//        }
+        // trigger the like event
+        if(likeStatus == 1){
+            Event event = new Event()
+                    .setTopic(TOPIC_LIKE)
+                    .setUserId(hostHolder.getUser().getId())
+                    .setEntityType(entityType)
+                    .setEntityId(entityId)
+                    .setEntityUserId(entityUserId)
+                    .setData("postId", postId);
+            producer.fireEvent(event);
+        }
 
         return CommunityUtil.getJSONString(0, null, map);
     }

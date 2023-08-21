@@ -71,7 +71,6 @@ public class LoginController implements CommunityConstant {
             return "/site/register";
         }
     }
-
     // http://localhost:8080/community/activation/101/code
     @RequestMapping(path = "/activation/{userId}/{code}", method = RequestMethod.GET)
     public String activation(Model model, @PathVariable("userId") int userId, @PathVariable("code") String code) {

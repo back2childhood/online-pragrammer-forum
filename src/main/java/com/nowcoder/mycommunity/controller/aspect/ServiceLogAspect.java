@@ -25,15 +25,13 @@ public class ServiceLogAspect {
 
     }
 
-    /**
-     * joinpoint means the program that is woven into
-     *
-     * @param joinPoint
-     */
     @Before("pointcut()")
     public void before(JoinPoint joinPoint) {
         // user[1.2.3.4] in[xxx] accessed the [com.nowcoder.mycommunity.service.xxx()]
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        if(attributes == null) {
+            return;
+        }
         HttpServletRequest request = attributes.getRequest();
 
         String ip = request.getRemoteHost();

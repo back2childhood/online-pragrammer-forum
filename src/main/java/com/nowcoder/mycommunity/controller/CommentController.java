@@ -41,22 +41,22 @@ public class CommentController implements CommunityConstant {
         comment.setCreateTime(new Date());
         commentService.addComment(comment);
 
-//        // trigger comment event
-//        Event event = new Event()
-//                .setTopic(TOPIC_COMMENT)
-//                .setUserId(hostHolder.getUser().getId())
-//                .setEntityType(comment.getEntityType())
-//                .setEntityId(comment.getEntityId())
-//                .setData("postId", discussPostId);
-//        if (comment.getEntityType() == ENTITY_TYPE_POST) {
-//            DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
-//            event.setEntityUserId(target.getUserId());
-//        }else if(comment.getEntityType() == ENTITY_TYPE_COMMENT){
-//            Comment target = commentService.findCommentById(comment.getEntityId());
-//            event.setEntityUserId(target.getUserId());
-//        }
-//
-//        producer.fireEvent(event);
+        // trigger comment event
+        Event event = new Event()
+                .setTopic(TOPIC_COMMENT)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(comment.getEntityType())
+                .setEntityId(comment.getEntityId())
+                .setData("postId", discussPostId);
+        if (comment.getEntityType() == ENTITY_TYPE_POST) {
+            DiscussPost target = discussPostService.findDiscussPostById(comment.getEntityId());
+            event.setEntityUserId(target.getUserId());
+        }else if(comment.getEntityType() == ENTITY_TYPE_COMMENT){
+            Comment target = commentService.findCommentById(comment.getEntityId());
+            event.setEntityUserId(target.getUserId());
+        }
+
+        producer.fireEvent(event);
 
         return "redirect:/discuss/detail/" + discussPostId;
     }

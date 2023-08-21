@@ -1,7 +1,9 @@
 package com.nowcoder.mycommunity.controller;
 
+import com.nowcoder.mycommunity.entity.Event;
 import com.nowcoder.mycommunity.entity.Page;
 import com.nowcoder.mycommunity.entity.User;
+import com.nowcoder.mycommunity.event.EventProducer;
 import com.nowcoder.mycommunity.service.FollowService;
 import com.nowcoder.mycommunity.service.UserService;
 import com.nowcoder.mycommunity.util.CommunityConstant;
@@ -31,12 +33,24 @@ public class FollowController implements CommunityConstant{
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private EventProducer producer;
+
     @PostMapping(path = "/follow")
     @ResponseBody
     public String follow(int entityType, int entityId){
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        // triger the following event
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        producer.fireEvent(event);
 
         return CommunityUtil.getJSONString(0, "followed");
     }
