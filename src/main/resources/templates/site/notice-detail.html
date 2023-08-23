@@ -12,7 +12,7 @@
 <body>
 	<div class="nk-container">
 		<!-- 头部 -->
-		<header class="bg-dark sticky-top" th:replace="index::header">
+		<header class="bg-dark sticky-top" th:replace="~{index::header}">
 			<div class="container">
 				<!-- 导航 -->
 				<nav class="navbar navbar-expand-lg navbar-dark">
@@ -85,29 +85,29 @@
 							</div>
 							<div class="toast-body">
 								<span th:if="${topic.equals('comment')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									评论了你的<b th:text="${map.entityType==1?'帖子':'回复'}">帖子</b>,
-									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">点击查看</a> !
+									commented on your <b th:text="${map.entityType==1?'post':'comment'}">帖子</b>,
+									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">click here to view</a> !
 								</span>
 								<span th:if="${topic.equals('like')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									点赞了你的<b th:text="${map.entityType==1?'帖子':'回复'}">帖子</b>,
-									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">点击查看</a> !
+									liked your <b th:text="${map.entityType==1?'post':'comment'}">帖子</b>,
+									<a class="text-primary" th:href="@{|/discuss/detail/${map.postId}|}">click here to view</a> !
 								</span>
 								<span th:if="${topic.equals('follow')}">
-									用户
+									User
 									<i th:utext="${map.user.username}">nowcoder</i>
-									关注了你,
-									<a class="text-primary" th:href="@{|/user/profile/${map.user.id}|}">点击查看</a> !
+									followed you,
+									<a class="text-primary" th:href="@{|/user/profile/${map.user.id}|}">click here to view</a> !
 								</span>
 							</div>
 						</div>
 					</li>
 				</ul>
 				<!-- 分页 -->
-				<nav class="mt-5" th:replace="index::pagination">
+				<nav class="mt-5" th:replace="~{index::pagination}">
 					<ul class="pagination justify-content-center">
 						<li class="page-item"><a class="page-link" href="#">首页</a></li>
 						<li class="page-item disabled"><a class="page-link" href="#">上一页</a></li>

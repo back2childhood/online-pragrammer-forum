@@ -86,7 +86,7 @@
 						<img src="http://static.nowcoder.com/images/head/reply.png" class="mr-4 user-header" alt="通知图标">
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
-								<span>评论</span>
+								<span>Comment</span>
 								<span class="float-right text-muted font-size-12"
 									th:text="${#dates.format(commentNotice.message.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-28 14:13:25</span>
 							</h6>
@@ -94,7 +94,7 @@
 								<a th:href="@{/notice/detail/comment}">
 									User
 									<i th:utext="${commentNotice.user.username}">nowcoder</i>
-									commented on your <b th:text="${commentNotice.entityType==1?'帖子':'回复'}">帖子</b> ...
+									commented on your <b th:text="${commentNotice.entityType==1?'post':'comment'}">帖子</b> ...
 								</a>
 								<ul class="d-inline font-size-12 float-right">
 									<li class="d-inline ml-2"><span class="text-primary">共 <i th:text="${commentNotice.count}">3</i> 条会话</span></li>
@@ -108,15 +108,15 @@
 						<img src="http://static.nowcoder.com/images/head/like.png" class="mr-4 user-header" alt="通知图标">
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
-								<span>赞</span>
+								<span>Like</span>
 								<span class="float-right text-muted font-size-12"
 									  th:text="${#dates.format(likeNotice.message.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-28 14:13:25</span>
 							</h6>
 							<div>
 								<a th:href="@{/notice/detail/like}">
-									用户
+									User
 									<i th:utext="${likeNotice.user.username}">nowcoder</i>
-									点赞了你的<b th:text="${likeNotice.entityType==1?'帖子':'回复'}">帖子</b> ...
+									liked your <b th:text="${likeNotice.entityType==1?'post':'comment'}">帖子</b> ...
 								</a>
 								<ul class="d-inline font-size-12 float-right">
 									<li class="d-inline ml-2"><span class="text-primary">共 <i th:text="${likeNotice.count}">3</i> 条会话</span></li>
@@ -130,15 +130,15 @@
 						<img src="http://static.nowcoder.com/images/head/follow.png" class="mr-4 user-header" alt="通知图标">
 						<div class="media-body">
 							<h6 class="mt-0 mb-3">
-								<span>关注</span>
+								<span>Follow</span>
 								<span class="float-right text-muted font-size-12"
 									  th:text="${#dates.format(followNotice.message.createTime,'yyyy-MM-dd HH:mm:ss')}">2019-04-28 14:13:25</span>
 							</h6>
 							<div>
 								<a th:href="@{/notice/detail/follow}">
-									用户
+									User
 									<i th:utext="${followNotice.user.username}">nowcoder</i>
-									关注了你 ...
+									followed you ...
 								</a>
 								<ul class="d-inline font-size-12 float-right">
 									<li class="d-inline ml-2"><span class="text-primary">共 <i th:text="${followNotice.count}">3</i> 条会话</span></li>

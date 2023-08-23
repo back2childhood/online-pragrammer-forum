@@ -155,7 +155,7 @@ public class MessageController implements CommunityConstant {
 
         // query the notification about comments
         Message message = messageService.findLatestNotice(user.getId(), TOPIC_COMMENT);
-        Map<String, Object> messageVO = new HashMap<String, Object>();
+        Map<String, Object> messageVO = new HashMap<>();
         if(message != null) {
             messageVO.put("message", message);
 
@@ -226,5 +226,48 @@ public class MessageController implements CommunityConstant {
         model.addAttribute("noticeUnreadCount", noticeUnreadCount);
 
         return "/site/notice";
+    }
+
+    @GetMapping(path = "/notice/detail/{topic}")
+    public String getNoticeDetail(@PathVariable("topic") String topic, Page page, Model model) {
+        User user = hostHolder.getUser();
+
+        page.setLimit(5);
+        page.setPath("/notice/detail/" + topic);
+        page.setRows(messageService.findNoticeCount(user.getId(), topic));
+
+        List<Message> noticeList = messageService.findNotices(user.getId(), topic, page.getOffset(), page.getLimit());
+        List<Map<String, Object>>  noticeVoList = new ArrayList<>();
+        if(noticeList != null) {
+            for(Message notice : noticeList) {
+                Map<String, Object> map = new HashMap<>();
+
+                // notice
+                map.put("notice", notice);
+
+                // content
+                String content = HtmlUtils.htmlUnescape(notice.getContent());
+                Map<String, Object> data = JSONObject.parseObject(content, HashMap.class);
+                map.put("user", userService.findUserById((Integer) data.get("userId")));
+                map.put("entityType", data.get("entityType"));
+                map.put("entityId", data.get("entityId"));
+                map.put("postId", data.get("postId"));
+
+                // the notification's writer
+                map.put("fromUser", userService.findUserById(notice.getFromId()));
+
+                noticeVoList.add(map);
+            }
+        }
+        model.addAttribute("notices", noticeVoList);
+
+
+        // set the notices to read
+        List<Integer> ids = getLetterIds(noticeList);
+        if(!ids.isEmpty()){
+            messageService.readMessage(ids);
+        }
+
+        return "/site/notice-detail";
     }
 }

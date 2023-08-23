@@ -38,4 +38,7 @@ public interface MessageMapper {
 
     // query the number of unread notifications
     int selectNoticeUnreadCount(int userId, String topic);
+
+    // query the list of notifications about a topic
+    List<Message> selectNotices(int userId, String topic, int offset, int limit);
 }
