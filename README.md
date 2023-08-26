@@ -23,4 +23,8 @@ http://www.localhost:8080/myCommunity/index
 
 ## TODO
 * the unread notifications' hint can't be removed
+* use Spring Security to implement the function of delete/perfect/top posts and the right control.
+* use Elasticsearch to implement the function of search any posts and highlight them keywords.
+* allow users to customize their nickname
+* allow users to modify/delete their own posts
 * 
