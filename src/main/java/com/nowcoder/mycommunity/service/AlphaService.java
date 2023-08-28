@@ -8,7 +8,11 @@ import com.nowcoder.mycommunity.entity.User;
 import com.nowcoder.mycommunity.util.CommunityUtil;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -48,6 +52,8 @@ public class AlphaService {
     public void destroy() {
         System.out.println("destroy");
     }
+
+    Logger logger = LoggerFactory.getLogger(this.getClass());
 
     // Propagation.REQUIRED : support a current transaction(outside transaction), create a new one if none exists.
     // Propagation.REQUIRES_NEW : create a new transaction and suspend the current transaction.
@@ -108,5 +114,15 @@ public class AlphaService {
                 return "ok";
             }
         });
+    }
+
+    @Async
+    public void execute1(){
+        logger.info("hello");
+    }
+
+//    @Scheduled(initialDelay = 10000, fixedRate = 1000)
+    public void execute2(){
+        logger.info("hello2");
     }
 }
