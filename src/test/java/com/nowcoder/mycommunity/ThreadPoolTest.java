@@ -20,7 +20,7 @@ import java.util.concurrent.*;
 @ContextConfiguration(classes = MyCommunityApplication.class)
 public class ThreadPoolTest {
 
-    private Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
+    private final Logger logger = LoggerFactory.getLogger(ThreadPoolTest.class);
 
     // JDK's normal thread-pool
     private ExecutorService executorService = Executors.newFixedThreadPool(5);
@@ -49,12 +49,7 @@ public class ThreadPoolTest {
 
     @Test
     public void testExecutorService() {
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                logger.info("hello executor service");
-            }
-        };
+        Runnable task = () -> logger.info("hello executor service");
 
         for(int i = 0; i < 10; i++) {
             executorService.submit(task);
@@ -65,12 +60,7 @@ public class ThreadPoolTest {
 
     @Test
     public void testScheduleExecutorService(){
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                logger.info("hello executor service");
-            }
-        };
+        Runnable task = () -> logger.info("hello executor service");
 
         for(int i = 0; i < 10; i++) {
             scheduledExecutorService.scheduleAtFixedRate(task, 10000, 1000, TimeUnit.MILLISECONDS);
@@ -81,12 +71,7 @@ public class ThreadPoolTest {
 
     @Test
     public void testThreadPoolTaskExecutor(){
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                logger.info("hello spring thread pool");
-            }
-        };
+        Runnable task = () -> logger.info("hello spring thread pool");
 
         for(int i = 0; i < 10; i++){
             taskExecutor.submit(task);
@@ -97,16 +82,12 @@ public class ThreadPoolTest {
 
     @Test
     public void testThreadPoolTaskScheduler(){
-        Runnable task = new Runnable() {
-            @Override
-            public void run() {
-                logger.info("hello spring thread pool");
-            }
-        };
+        Runnable task = () -> logger.info("hello spring thread pool");
 
         Date start = new Date(System.currentTimeMillis() + 10000);
 //        for(int i = 0; i < 10; i++){
             taskScheduler.scheduleAtFixedRate(task, start, 1000);
+
 //        }
 
         sleep(10000);

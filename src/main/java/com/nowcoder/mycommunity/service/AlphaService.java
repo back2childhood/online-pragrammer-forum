@@ -12,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.TransactionDefinition;
 import org.springframework.transaction.TransactionStatus;
@@ -79,7 +78,7 @@ public class AlphaService {
         post.setCreateTime(new Date());
         discussPostMapper.insertDiscussPost(post);
 
-        Integer.valueOf("abc");
+        int a = Integer.valueOf("abc");
 
         return "ok";
     }
@@ -88,31 +87,28 @@ public class AlphaService {
         transactionTemplate.setIsolationLevel(TransactionDefinition.ISOLATION_READ_UNCOMMITTED);
         transactionTemplate.setPropagationBehavior(TransactionDefinition.PROPAGATION_REQUIRED);
 
-        return transactionTemplate.execute(new TransactionCallback<Object>() {
-            @Override
-            public Object doInTransaction(TransactionStatus status) {
-                // add a new user
-                User user = new User();
-                user.setUsername("alpha");
-                user.setSalt(CommunityUtil.generateUUID().substring(0, 5));
-                user.setEmail("alpha@qq.com");
-                user.setPassword(CommunityUtil.md5(user.getSalt()));
-                user.setHeaderUrl("http://image.nowcoder.com/head/99t.png");
-                user.setCreateTime(new Date());
-                userMapper.insertUser(user);
+        return transactionTemplate.execute((TransactionCallback<Object>) status -> {
+            // add a new user
+            User user = new User();
+            user.setUsername("alpha");
+            user.setSalt(CommunityUtil.generateUUID().substring(0, 5));
+            user.setEmail("alpha@qq.com");
+            user.setPassword(CommunityUtil.md5(user.getSalt()));
+            user.setHeaderUrl("http://image.nowcoder.com/head/99t.png");
+            user.setCreateTime(new Date());
+            userMapper.insertUser(user);
 
-                // post
-                DiscussPost post = new DiscussPost();
-                post.setUserId(user.getId());
-                post.setTitle("hello");
-                post.setContent("newbie report");
-                post.setCreateTime(new Date());
-                discussPostMapper.insertDiscussPost(post);
+            // post
+            DiscussPost post = new DiscussPost();
+            post.setUserId(user.getId());
+            post.setTitle("hello");
+            post.setContent("newbie report");
+            post.setCreateTime(new Date());
+            discussPostMapper.insertDiscussPost(post);
 
-                Integer.valueOf("abc");
+            int b = Integer.valueOf("abc");
 
-                return "ok";
-            }
+            return "ok";
         });
     }
 
