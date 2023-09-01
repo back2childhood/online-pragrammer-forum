@@ -74,6 +74,11 @@ public class PostScoreRefreshJob implements Job, CommunityConstant {
             return;
         }
 
+        if(post.getStatus() == 2){
+            logger.error("This post was deleted, id = " + postId);
+            return;
+        }
+
         // whether this post is wonderful
 //        boolean wonderful = post.getStatus() == 1;
         boolean wonderful = false;

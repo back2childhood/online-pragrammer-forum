@@ -73,7 +73,7 @@ public class QuartzConfig {
         factoryBean.setName("postScoreRefreshTrigger");
         factoryBean.setGroup("communityTriggerGroup");
         // the interval of the trigger
-        factoryBean.setRepeatInterval(1000 * 60);
+        factoryBean.setRepeatInterval(1000 * 60 * 5);
         // use an object to store the status of the job, `JobDataMap()` is the default object
         factoryBean.setJobDataMap(new JobDataMap());
 

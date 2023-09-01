@@ -60,9 +60,9 @@ public class ElasticSearchTest {
 
     @Test
     public void testInsertList(){
-        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(101, 0, 100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(102, 0, 100));
-        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(103, 0, 100));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(101, 0, 100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(102, 0, 100,0));
+        discussPostRepository.saveAll(discussPostMapper.selectDiscussPosts(103, 0, 100,0));
     }
 
     @Test

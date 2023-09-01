@@ -8,6 +8,8 @@ import com.nowcoder.mycommunity.service.UserService;
 import com.nowcoder.mycommunity.util.CommunityConstant;
 import com.nowcoder.mycommunity.util.CommunityUtil;
 import com.nowcoder.mycommunity.util.HostHolder;
+import com.qiniu.util.Auth;
+import com.qiniu.util.StringMap;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -53,12 +55,54 @@ public class UserController implements CommunityConstant {
     @Autowired
     private FollowService followService;
 
+    @Value("${qiniu.key.accessKey}")
+    private String accessKey;
+
+    @Value("${qiniu.key.secretKey}")
+    private String secretKey;
+
+    @Value("${qiniu.bucket.header.name}")
+    private String headerBucketName;
+
+    @Value("${qiniu.bucket.header.url}")
+    private String headerBucketUrl;
+
     @LoginRequired
     @RequestMapping(path = "/setting", method = RequestMethod.GET)
-    public String getSettingPage() {
+    public String getSettingPage(Model model) {
+        // set the name of the uploaded file
+        String fileName = CommunityUtil.generateUUID();
+
+        // set the information of the response
+        StringMap policy = new StringMap();
+        policy.put("returnBody", CommunityUtil.getJSONString(0));
+
+        // generate the certificate of uploading
+        Auth auth = Auth.create(accessKey, secretKey);
+        String uploadToken = auth.uploadToken(headerBucketName, fileName, 3600, policy);
+
+        model.addAttribute("uploadToken", uploadToken);
+        model.addAttribute("fileName", fileName);
+
         return "/site/setting";
     }
 
+    // update the path of profile picture
+    @PostMapping(path = "/header/url")
+    @ResponseBody
+    public String updateHeaderUrl(String fileName){
+        if(StringUtils.isBlank(fileName)){
+            return CommunityUtil.getJSONString(1, "The file name cane is required.");
+        }
+
+        String url = headerBucketUrl + "/" + fileName;
+        userService.updateHeader(hostHolder.getUser().getId(), url);
+
+        return CommunityUtil.getJSONString(0);
+    }
+
+    // Deprecated
+    @Deprecated
     @LoginRequired
     @RequestMapping(path = "/upload", method = RequestMethod.POST)
     public String uploadHeader(MultipartFile headerImage, Model model) {
@@ -95,6 +139,7 @@ public class UserController implements CommunityConstant {
         return "redirect:/index";
     }
 
+    @Deprecated
     @RequestMapping(path = "/header/{fileName}", method = RequestMethod.GET)
     public void getHeader(@PathVariable("fileName") String fileName, HttpServletResponse response) {
         // server storage path
