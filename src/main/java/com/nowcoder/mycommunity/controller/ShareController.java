@@ -38,9 +38,23 @@ public class ShareController implements CommunityConstant {
 
     @Value("${wk.image.storage}")
     private String wkImageStorage;
+//
+//    @Value("${qiniu.key.accessKey}")
+//    private String accessKey;
+//
+//    @Value("${qiniu.key.secretKey}")
+//    private String secretKey;
+//
+//    @Value("${qiniu.bucket.share.name}")
+//    private String shareBucketName;
+
+    @Value("${qiniu.bucket.share.url}")
+    private String shareBucketUrl;
 
     @GetMapping(path = "/share")
     @ResponseBody
+    // The parameters in the url are automatically obtained, for example:
+    // http://localhost:8080/myCommunity/share?htmlUrl=https://www.nowcoder.com
     public String share(String htmlUrl){
         // generate the file name
         String fileName = CommunityUtil.generateUUID();
@@ -54,12 +68,14 @@ public class ShareController implements CommunityConstant {
         eventProducer.fireEvent(event);
 
         Map<String, Object> map = new HashMap<>();
-        map.put("shareUrl", domain + contextPath + "/share/image" + fileName);
+//        map.put("shareUrl", domain + contextPath + "/share/image" + fileName);
+        map.put("shareUrl", shareBucketUrl + "/" + fileName);
 
         return CommunityUtil.getJSONString(0, null, map);
     }
 
-    //
+    // obtain the image
+    @Deprecated
     @GetMapping(path = "/share/image/{fileName}")
     public void getShareImage(@PathVariable("fileName") String fileName, HttpServletResponse response){
         if(StringUtils.isBlank(fileName)){
