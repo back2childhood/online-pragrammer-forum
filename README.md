@@ -20,6 +20,9 @@ http://www.localhost:8080/myCommunity/index
 * Use Kafka to realize asynchronous installation notification, a single machine can reach 7,000TPS.
 * Implemented full-text search function using ElasticSearch, which can accurately match search results and highlight keywords.
 
+## TO FIX
+* User can't read message and publish posts although logged in.
+
 ## TODO
 * the unread notifications' hint can't be removed
 * use Spring Security to implement the function of delete/useful/pin posts and the right control.

@@ -127,6 +127,10 @@ public class DiscussPostService {
         return discussPostMapper.updateCommentCount(id, commentCount);
     }
 
+    public int updateStatus(int id, int status) {
+        return discussPostMapper.updateStatus(id, status);
+    }
+
     public int updateScore(int id, double score) {
         return discussPostMapper.updateScore(id, score);
     }
