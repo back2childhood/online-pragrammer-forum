@@ -21,7 +21,7 @@ http://www.localhost:8080/myCommunity/index
 * Implemented full-text search function using ElasticSearch, which can accurately match search results and highlight keywords.
 
 ## TO FIX
-* User can't read message and publish posts although logged in.
+* Users can't read messages and publish posts although logged in.
 
 ## TODO
 * the unread notifications' hint can't be removed

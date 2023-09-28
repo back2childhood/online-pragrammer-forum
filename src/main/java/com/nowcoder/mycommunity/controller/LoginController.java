@@ -156,7 +156,7 @@ public class LoginController implements CommunityConstant {
     @RequestMapping(path = "/logout", method = RequestMethod.GET)
     public String logout(@CookieValue("ticket") String ticket) {
         userService.logout(ticket);
-        SecurityContextHolder.clearContext();
+//        SecurityContextHolder.clearContext();
         // login have two method, the default method is GET
         return "redirect:/login";
     }
